@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.vite/
+.DS_Store
+*.log
+
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# AI-generated raster output (regenerable via `npm run gen-scenes`)
+# Only the traced SVGs are committed.
+public/assets/scenes/*.png
+public/assets/scenes-nano/

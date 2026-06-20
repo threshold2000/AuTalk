@@ -1,0 +1,18 @@
+{
+  "name": "autism-lang-training",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --host --port 5000",
+    "gen-scenes": "node tools/gen-scenes.mjs",
+    "gen-scenes-nano": "node tools/gen-scenes-nano.mjs",
+    "optimize-scenes": "node tools/optimize-scenes.mjs"
+  },
+  "devDependencies": {
+    "potrace": "^2.1.8",
+    "vite": "^5.4.10"
+  }
+}
