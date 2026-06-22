@@ -1,6 +1,6 @@
 const B = import.meta.env.BASE_URL;
 
-const sceneBase = (animal, action) => `${B}assets/scenes/${animal.id}_${action.id}`;
+const sceneBase = (animal, action) => `${B}assets/scenes-1/${animal.id}_${action.id}`;
 
 function probeImage(src) {
   return new Promise((resolve) => {
@@ -17,8 +17,6 @@ export function createSceneFigure(animal, action) {
   el.innerHTML = `
     <img class="scene__img" alt="" />
     <div class="scene__fallback">
-      <div class="scene__emoji"></div>
-      <div class="scene__label"></div>
       <div class="scene__hint">圖尚未生成<br>請執行 <code>npm run gen-scenes</code></div>
     </div>
   `;
@@ -43,22 +41,15 @@ export function updateSceneFigure(el, animal, action) {
 async function applyScene(el, animal, action) {
   const img = el.querySelector('.scene__img');
   const fb = el.querySelector('.scene__fallback');
-  const emoji = el.querySelector('.scene__emoji');
-  const label = el.querySelector('.scene__label');
 
-  emoji.textContent = `${animal.emoji} · ${actionEmojiFor(action.id)}`;
-  label.textContent = `${animal.name}${action.verb}`;
   img.removeAttribute('src');
   img.style.display = 'none';
-  fb.style.display = 'flex';
+  fb.style.display = 'none'; // hide during load; never spoil the answer
 
-  // Mark THIS request as the current one so later async probes from a stale
-  // applyScene call bail out when they finish.
   const requestedAnimal = animal.id;
   const requestedAction = action.id;
   img.dataset.requestedAnimal = requestedAnimal;
   img.dataset.requestedAction = requestedAction;
-
   const stillCurrent = () =>
     img.dataset.requestedAnimal === requestedAnimal &&
     img.dataset.requestedAction === requestedAction;
@@ -70,26 +61,11 @@ async function applyScene(el, animal, action) {
     if (!stillCurrent()) return;
     if (ok) {
       img.src = src;
-      img.alt = `${animal.name}${action.verb}`;
+      img.alt = '';
       img.style.display = 'block';
-      fb.style.display = 'none';
       return;
     }
   }
+  // Hard failure: show the dev-only "image not generated" hint.
+  fb.style.display = 'flex';
 }
-
-const ACTION_EMOJI = {
-  running: '🏃',
-  cycling: '🚴',
-  fishing: '🎣',
-  driving: '🚗',
-  basketball: '🏀',
-  drinking: '🥛',
-  dinner: '🍽️',
-  singing: '🎤',
-  homework: '✏️',
-  jumprope: '🪢',
-  balloon: '🎈',
-  ice_cream: '🍦',
-};
-const actionEmojiFor = (id) => ACTION_EMOJI[id] || '❓';

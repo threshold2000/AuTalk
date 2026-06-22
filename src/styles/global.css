@@ -120,6 +120,43 @@ button {
   display: grid;
   grid-template-rows: auto 1fr;
   overflow: hidden;
+  position: relative;
+}
+
+/* "上一張" undo button, floating bottom-left. Only one step back is remembered. */
+.prev-btn {
+  position: absolute;
+  bottom: 2vh;
+  left: 2vw;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 1vh 1.6vw;
+  font-size: clamp(13px, 2vh, 18px);
+  font-weight: 600;
+  color: var(--text);
+  background: var(--card-bg);
+  border: 2px solid var(--card-border);
+  border-radius: 999px;
+  min-height: 40px;
+  box-shadow: var(--shadow);
+  transition: transform 100ms ease, background 150ms ease;
+}
+
+.prev-btn:active {
+  transform: scale(0.96);
+  background: var(--accent-soft);
+}
+
+.prev-btn[aria-disabled="true"] {
+  pointer-events: none;
+}
+
+.prev-btn__arrow {
+  width: clamp(16px, 2.4vh, 22px);
+  height: clamp(16px, 2.4vh, 22px);
+  display: block;
 }
 
 .topbar {
@@ -130,17 +167,28 @@ button {
   gap: 2vw;
 }
 
+.topbar__toggles {
+  display: flex;
+  gap: 1vw;
+  align-items: center;
+}
+
 .topbar__btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5em;
-  font-size: clamp(16px, 2.4vh, 24px);
-  font-weight: 600;
-  padding: 1vh 2vw;
+  gap: 0.3em;
+  padding: 1vh 1.4vw;
   border-radius: 999px;
   background: var(--card-bg);
   border: 2px solid var(--card-border);
+  color: var(--text);
   min-height: 48px;
+}
+
+.topbar__icon {
+  width: clamp(20px, 3vh, 28px);
+  height: clamp(20px, 3vh, 28px);
+  display: block;
 }
 
 .toggle {
@@ -167,6 +215,24 @@ button {
 .toggle.on .toggle__dot {
   background: var(--accent);
   border-color: var(--accent);
+}
+
+/* Block variant: sits inside the left column alongside lock cards. */
+.toggle--block {
+  display: flex;
+  width: 100%;
+  border-radius: var(--radius);
+  padding: 1.5vh 0.4vw;
+  box-shadow: var(--shadow);
+  font-size: clamp(16px, 2.8vh, 26px);
+  font-weight: 800;
+  color: var(--text);
+}
+
+.toggle--block.on {
+  background: #fff1cc;
+  border-color: var(--lock-on);
+  color: var(--accent);
 }
 
 .practice__main {
@@ -222,10 +288,73 @@ button {
   display: none;
 }
 
-.scene__fallback {
+/* place-figure: place SVG fills container, item SVG is anchored on top */
+.scene__place-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 200ms ease;
+  display: none;
+}
+
+.scene__item-fill,
+.scene__item {
+  position: absolute;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  transition: opacity 200ms ease;
+  display: none;
+  transform-origin: center center;
+}
+
+/* fill silhouette sits between place and line trace */
+.scene__item-fill { z-index: 2; }
+.scene__item      { z-index: 3; }
+.scene__place-bg  { z-index: 1; }
+
+/* optional hanging strings (e.g. wall_hook): two diagonal lines from a
+   hook anchor down to the item's top-left + top-right corners */
+.scene__hang-strings {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: none;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+
+/* module 3: count of foods tiled in a flex-wrap grid */
+.scene__count-grid {
   position: absolute;
   inset: 0;
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1%;
+  padding: 3%;
+  box-sizing: border-box;
+  transition: opacity 200ms ease;
+}
+
+.scene__count-item {
+  object-fit: contain;
+  display: block;
+  aspect-ratio: 1 / 1;
+}
+
+/* Fallback is hidden during normal use; it only appears when the image
+   genuinely fails to load. We deliberately do NOT show any emoji or label
+   that could hint at the answer (e.g., "🐶 · 🏃 小狗正在跑步"). */
+.scene__fallback {
+  position: absolute;
+  inset: 0;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -233,17 +362,6 @@ button {
   padding: 2vh;
   text-align: center;
   transition: opacity 200ms ease;
-}
-
-.scene__emoji {
-  font-size: clamp(48px, 12vh, 120px);
-  line-height: 1;
-}
-
-.scene__label {
-  font-size: clamp(18px, 3vh, 28px);
-  font-weight: 700;
-  color: var(--text);
 }
 
 .scene__hint {

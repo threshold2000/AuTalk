@@ -67,7 +67,7 @@ const actionSet = filterActionsArg ? new Set(filterActionsArg.split(',')) : null
 const animals = animalSet ? allAnimals.filter((a) => animalSet.has(a.id)) : allAnimals;
 const actions = actionSet ? allActions.filter((a) => actionSet.has(a.id)) : allActions;
 
-const outDir = path.join(root, 'public/assets/scenes-nano');
+const outDir = path.join(root, 'public/assets/scenes-1-nano');
 fs.mkdirSync(outDir, { recursive: true });
 
 // ---- prompt (shared with gen-scenes.mjs via tools/lib/prompt.mjs) ----

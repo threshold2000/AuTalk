@@ -72,7 +72,7 @@ if (animals.length === 0 || actions.length === 0) {
   process.exit(1);
 }
 
-const outDir = path.join(root, 'public/assets/scenes');
+const outDir = path.join(root, 'public/assets/scenes-1');
 fs.mkdirSync(outDir, { recursive: true });
 
 // ---- prompt (shared with gen-scenes-nano via tools/lib/prompt.mjs) ----

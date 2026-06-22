@@ -26,7 +26,16 @@ export function renderWhoDoingWhat(root) {
   wrap.className = 'practice';
   wrap.innerHTML = `
     <div class="topbar">
-      <button class="topbar__btn" id="back" type="button">← 首頁</button>
+      <button class="topbar__btn" id="back" type="button" aria-label="回首頁">
+        <svg class="topbar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M19 12H5" />
+          <path d="M12 5l-7 7 7 7" />
+        </svg>
+        <svg class="topbar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 12l9-9 9 9" />
+          <path d="M5 10v10a1 1 0 0 0 1 1h3v-6h6v6h3a1 1 0 0 0 1-1V10" />
+        </svg>
+      </button>
       <button class="toggle" id="text-toggle" type="button">
         <span class="toggle__dot"></span>
         <span>顯示文字</span>
@@ -48,6 +57,13 @@ export function renderWhoDoingWhat(root) {
         </button>
       </div>
     </div>
+    <button class="prev-btn" id="prev" type="button" aria-disabled="true">
+      <svg class="prev-btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M19 12H5" />
+        <path d="M12 5l-7 7 7 7" />
+      </svg>
+      <span>上一張</span>
+    </button>
   `;
 
   const leftCol = wrap.querySelector('.left-col');
@@ -99,7 +115,19 @@ export function renderWhoDoingWhat(root) {
     location.hash = '#/';
   });
 
+  // One-step undo: snapshot the (animalId, actionId) shown BEFORE each
+  // next-click, restore it once on prev-click, then forget.
+  let prevSnapshot = null;
+  const prevBtn = wrap.querySelector('#prev');
+  const refreshPrevBtn = () => {
+    const hasSnap = !!prevSnapshot;
+    prevBtn.setAttribute('aria-disabled', hasSnap ? 'false' : 'true');
+    prevBtn.style.opacity = hasSnap ? '1' : '0';
+  };
+  refreshPrevBtn();
+
   wrap.querySelector('.next-btn').addEventListener('click', () => {
+    prevSnapshot = { animalId: state.animalId, actionId: state.actionId };
     if (!state.animalLocked) {
       state.animalId = randomDifferent(animals, state.animalId).id;
     }
@@ -110,6 +138,19 @@ export function renderWhoDoingWhat(root) {
     const v = findById(actions, state.actionId);
     updateSceneFigure(fig, a, v);
     updateCaption();
+    refreshPrevBtn();
+  });
+
+  prevBtn.addEventListener('click', () => {
+    if (!prevSnapshot) return;
+    state.animalId = prevSnapshot.animalId;
+    state.actionId = prevSnapshot.actionId;
+    prevSnapshot = null;
+    const a = findById(animals, state.animalId);
+    const v = findById(actions, state.actionId);
+    updateSceneFigure(fig, a, v);
+    updateCaption();
+    refreshPrevBtn();
   });
 
   root.appendChild(wrap);

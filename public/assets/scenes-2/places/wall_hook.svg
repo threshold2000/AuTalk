@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet">
+  <!-- hook mounting plate: small rounded rectangle just under the ceiling line -->
+  <rect x="488" y="150" width="48" height="36" rx="6"
+        fill="#fff7e6" stroke="#1a1a1a" stroke-width="6" stroke-linejoin="round"/>
+  <!-- hook curl: small "J" shape hanging from the plate. Tip at (512, 248). -->
+  <path d="M 512 186 L 512 220 Q 512 248 540 248 Q 552 248 552 236"
+        fill="none" stroke="#1a1a1a" stroke-width="8"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- picture frame: outer rectangle. Corners at (290, 380) and (734, 380) on top. -->
+  <rect x="290" y="380" width="444" height="500" rx="8"
+        fill="#fff7e6" stroke="#1a1a1a" stroke-width="10" stroke-linejoin="round"/>
+  <!-- inner mat (gives a "frame within a frame" depth cue) -->
+  <rect x="330" y="420" width="364" height="420" rx="4"
+        fill="none" stroke="#1a1a1a" stroke-width="3"/>
+</svg>

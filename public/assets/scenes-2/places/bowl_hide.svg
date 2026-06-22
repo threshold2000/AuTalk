@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet">
+  <!-- bowl body: wide U-shape, opaque page-bg color so the item hides behind -->
+  <path d="M 200 520 Q 200 880 512 880 Q 824 880 824 520 Z"
+        fill="#fff7e6" stroke="#1a1a1a" stroke-width="14" stroke-linejoin="round"/>
+  <!-- bowl rim ellipse on top -->
+  <ellipse cx="512" cy="520" rx="312" ry="50"
+           fill="#fff7e6" stroke="#1a1a1a" stroke-width="14"/>
+  <!-- inner rim depth hint -->
+  <ellipse cx="512" cy="530" rx="278" ry="32"
+           fill="none" stroke="#1a1a1a" stroke-width="6" opacity="0.6"/>
+  <!-- ground line under bowl -->
+  <line x1="120" y1="900" x2="904" y2="900"
+        stroke="#1a1a1a" stroke-width="10" stroke-linecap="round"/>
+</svg>

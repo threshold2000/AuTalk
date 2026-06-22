@@ -9,10 +9,15 @@
     "preview": "vite preview --host --port 5000",
     "gen-scenes": "node tools/gen-scenes.mjs",
     "gen-scenes-nano": "node tools/gen-scenes-nano.mjs",
+    "gen-pieces": "node tools/gen-pieces.mjs",
+    "gen-pieces-nano": "node tools/gen-pieces-nano.mjs",
+    "gen-foods-nano": "node tools/gen-foods-nano.mjs",
+    "gen-moods-nano": "node tools/gen-moods-nano.mjs",
     "optimize-scenes": "node tools/optimize-scenes.mjs"
   },
   "devDependencies": {
     "potrace": "^2.1.8",
+    "sharp": "^0.35.2",
     "vite": "^5.4.10"
   }
 }

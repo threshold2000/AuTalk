@@ -9,7 +9,7 @@ dist/
 .env.local
 .env.*.local
 
-# AI-generated raster output (regenerable via `npm run gen-scenes`)
+# AI-generated raster output (regenerable via `npm run gen-scenes` or `gen-pieces`)
 # Only the traced SVGs are committed.
-public/assets/scenes/*.png
-public/assets/scenes-nano/
+public/assets/scenes-*/**/*.png
+public/assets/scenes-1-nano/
