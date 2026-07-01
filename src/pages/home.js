@@ -4,6 +4,7 @@ const modules = [
   { id: 'what-count',     name: '東西和數量',   emoji: '🍎', enabled: true },
   { id: 'who-feeling',    name: '誰的心情',     emoji: '😊', enabled: true },
   { id: 'what-color',     name: '什麼顏色',     emoji: '🎨', enabled: true },
+  { id: 'money-count',    name: '算錢幣',       emoji: '💰', enabled: true },
 ];
 
 export function renderHome(root) {

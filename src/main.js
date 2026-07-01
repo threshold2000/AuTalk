@@ -4,6 +4,7 @@ import { renderWhatWhere } from './pages/what-where.js';
 import { renderWhatCount } from './pages/what-count.js';
 import { renderWhoFeeling } from './pages/who-feeling.js';
 import { renderWhatColor } from './pages/what-color.js';
+import { renderMoneyCount } from './pages/money-count.js';
 
 const routes = {
   '': renderHome,
@@ -13,6 +14,7 @@ const routes = {
   '/what-count': renderWhatCount,
   '/who-feeling': renderWhoFeeling,
   '/what-color': renderWhatColor,
+  '/money-count': renderMoneyCount,
 };
 
 function route() {
