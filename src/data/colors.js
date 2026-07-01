@@ -8,7 +8,6 @@ export const colors = [
   { id: 'blue',      name: '藍色',   en: 'bright blue',      swatch: '#2a7bd6' },
   { id: 'green',     name: '綠色',   en: 'bright green',     swatch: '#3fa84a' },
   { id: 'white',     name: '白色',   en: 'white',            swatch: '#ffffff' },
-  { id: 'black',     name: '黑色',   en: 'solid black',      swatch: '#111111' },
   // extras (多色 toggle on)
   { id: 'pink',      name: '粉紅色', en: 'soft pink',        swatch: '#f6a1c9', extra: true },
   { id: 'lightblue', name: '淺藍色', en: 'light sky blue',   swatch: '#8bc9ee', extra: true },
