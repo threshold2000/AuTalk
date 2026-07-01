@@ -13,3 +13,5 @@ dist/
 # Only the traced SVGs are committed.
 public/assets/scenes-*/**/*.png
 public/assets/scenes-1-nano/
+# ...except module 6 coin photos, which cannot be traced (need color detail).
+!public/assets/scenes-6/**/*.png

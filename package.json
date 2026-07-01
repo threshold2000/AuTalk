@@ -14,6 +14,7 @@
     "gen-foods-nano": "node tools/gen-foods-nano.mjs",
     "gen-moods-nano": "node tools/gen-moods-nano.mjs",
     "gen-color-items-nano": "node tools/gen-color-items-nano.mjs",
+    "gen-coins-nano": "node tools/gen-coins-nano.mjs",
     "optimize-scenes": "node tools/optimize-scenes.mjs"
   },
   "devDependencies": {
