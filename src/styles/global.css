@@ -276,6 +276,7 @@ button {
   height: 92%;
   max-width: 92%;
   max-height: 92%;
+  min-width: 240px;
   background: transparent;
   overflow: hidden;
 }
