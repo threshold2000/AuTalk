@@ -24,7 +24,7 @@ function rollCoins({ allowTen, over20 }) {
     }
     for (let i = 0; i < remaining; i++) coins.push(1);
 
-    if (coins.length >= 2 && coins.length <= 12) {
+    if (coins.length >= 2 && coins.length <= 5) {
       // shuffle
       for (let i = coins.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
