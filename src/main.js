@@ -3,6 +3,7 @@ import { renderWhoDoingWhat } from './pages/who-doing-what.js';
 import { renderWhatWhere } from './pages/what-where.js';
 import { renderWhatCount } from './pages/what-count.js';
 import { renderWhoFeeling } from './pages/who-feeling.js';
+import { renderWhatColor } from './pages/what-color.js';
 
 const routes = {
   '': renderHome,
@@ -11,6 +12,7 @@ const routes = {
   '/what-where': renderWhatWhere,
   '/what-count': renderWhatCount,
   '/who-feeling': renderWhoFeeling,
+  '/what-color': renderWhatColor,
 };
 
 function route() {

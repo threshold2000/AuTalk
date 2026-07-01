@@ -53,6 +53,17 @@ export function buildMoodPrompt({ character, emotion }) {
   ].join(' ');
 }
 
+// Module 5 (what-color) — cross product of a plain object × a color.
+// Unlike other modules this one MUST be in color (color IS the point).
+export function buildColorPrompt({ item, color }) {
+  return [
+    `A cute cartoon illustration of ${item.en}, painted entirely in solid ${color.en}.`,
+    `The ${item.en} is coloured UNMISTAKABLY ${color.en} — the color should be immediately obvious at a glance.`,
+    'Clean black outline, filled with solid color inside. Simple children\'s picture-book style.',
+    'On a plain pure-white background. Only the single object — no shadows, no scenery, no other objects, no text or letters.',
+  ].join(' ');
+}
+
 // Module 2 (what-where) — places: a static scene/context with clear empty space
 // where a small object will be composited on top of it.
 export function buildPlacePrompt({ place }) {

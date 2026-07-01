@@ -328,6 +328,33 @@ button {
   transition: opacity 200ms ease;
 }
 
+/* module 5: colored item — silhouette painted via CSS mask + outline overlay */
+.scene__color-fill {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-color: transparent;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  -webkit-mask-position: center;
+  transition: opacity 200ms ease, background-color 200ms ease;
+  display: none;
+}
+
+.scene__color-line {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 3;
+  transition: opacity 200ms ease;
+  display: none;
+}
+
 /* module 3: count of foods tiled in a flex-wrap grid */
 .scene__count-grid {
   position: absolute;

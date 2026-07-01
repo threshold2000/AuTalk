@@ -3,7 +3,7 @@ const modules = [
   { id: 'what-where',     name: '什麼在哪裡',   emoji: '📦', enabled: true },
   { id: 'what-count',     name: '東西和數量',   emoji: '🍎', enabled: true },
   { id: 'who-feeling',    name: '誰的心情',     emoji: '😊', enabled: true },
-  { id: 'colors',         name: '什麼顏色',     emoji: '🎨', enabled: false },
+  { id: 'what-color',     name: '什麼顏色',     emoji: '🎨', enabled: true },
 ];
 
 export function renderHome(root) {
