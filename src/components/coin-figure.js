@@ -16,29 +16,40 @@ const COIN_SIZE = {
   10: 23,
 };
 
-// Pick a spot that is as far as possible from every already-placed coin,
-// so 5 coins spread across the frame instead of clumping into 1-2 rows.
+// Pick a spot that does not overlap any already-placed coin. Compare
+// centre distance against the sum of the two radii (plus a small buffer)
+// rather than corner distance, so coins really don't touch.
 function placeAway(denom, existing) {
   const size = COIN_SIZE[denom];
+  const half = size / 2;
+  const buffer = 1; // 1% extra gap so coins are visibly separate
   const maxLeft = Math.max(0, 100 - size - 2);
   const maxTop  = Math.max(0, 100 - size - 2);
 
   let best = null;
-  let bestScore = -Infinity;
-  const attempts = 12;
+  let bestOverlap = Infinity;
+  const attempts = 60;
   for (let i = 0; i < attempts; i++) {
     const left = 2 + Math.random() * (maxLeft - 2);
     const top  = 2 + Math.random() * (maxTop  - 2);
-    let minDist = Infinity;
+    const cx = left + half;
+    const cy = top + half;
+
+    let worstOverlap = 0;
     for (const e of existing) {
-      const dx = left - e.left;
-      const dy = top - e.top;
-      const d = Math.sqrt(dx * dx + dy * dy);
-      if (d < minDist) minDist = d;
+      const dx = cx - e.cx;
+      const dy = cy - e.cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const minSep = half + e.radius + buffer;
+      const overlap = minSep - dist;
+      if (overlap > worstOverlap) worstOverlap = overlap;
     }
-    if (minDist > bestScore) {
-      bestScore = minDist;
-      best = { left, top };
+    if (worstOverlap <= 0) {
+      return { left, top, cx, cy, radius: half, rot: (Math.random() - 0.5) * 60 };
+    }
+    if (worstOverlap < bestOverlap) {
+      bestOverlap = worstOverlap;
+      best = { left, top, cx, cy, radius: half };
     }
   }
   return { ...best, rot: (Math.random() - 0.5) * 60 };
@@ -85,12 +96,12 @@ function applyCoins(el, coins) {
     img.className = `coin coin--${denom}`;
     img.src = COIN_SRC[denom] || COIN_SRC[1];
     img.alt = '';
-    const { left, top, rot } = placeAway(denom, placed);
-    placed.push({ left, top });
-    img.style.left = `${left}%`;
-    img.style.top = `${top}%`;
+    const spot = placeAway(denom, placed);
+    placed.push({ cx: spot.cx, cy: spot.cy, radius: spot.radius });
+    img.style.left = `${spot.left}%`;
+    img.style.top = `${spot.top}%`;
     img.style.width = `${COIN_SIZE[denom]}%`;
-    img.style.transform = `rotate(${rot}deg)`;
+    img.style.transform = `rotate(${spot.rot}deg)`;
     grid.appendChild(img);
   }
   grid.style.display = 'block';
