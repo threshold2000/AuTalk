@@ -7,13 +7,22 @@ const COIN_SRC = {
   1:  `${B}assets/scenes-6/coin1.png`,
   5:  `${B}assets/scenes-6/coin5.png`,
   10: `${B}assets/scenes-6/coin10.png`,
+  20: `${B}assets/scenes-6/coin20.png`,
+  50: `${B}assets/scenes-6/coin50.png`,
 };
 
-// Diameter as a percentage of the scene container.
+// Diameter as a percentage of the scene container, scaled from the real-world
+// NT coin diameters (1 元 = 20 mm baseline):
+//   5 元 22 mm  → ×1.10
+//  10 元 26 mm  → ×1.30
+//  20 元 26.85 mm → ×1.34
+//  50 元 28 mm  → ×1.40
 const COIN_SIZE = {
-  1:  16,
-  5:  19,
-  10: 23,
+  1:  16.0,
+  5:  17.6,
+  10: 20.8,
+  20: 21.5,
+  50: 22.4,
 };
 
 // Pick a spot that does not overlap any already-placed coin. Compare

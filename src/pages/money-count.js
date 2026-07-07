@@ -1,31 +1,30 @@
 import { createCoinFigure, updateCoinFigure, totalOf } from '../components/coin-figure.js';
 
 function rollCoins({ allowTen, over20 }) {
-  const targetMin = over20 ? 15 : 3;
-  const targetMax = over20 ? 55 : 20;
+  const targetMin = over20 ? 25 : 3;
+  const targetMax = over20 ? 99 : 20;
+
+  // Larger denominations only kick in for the "over 20" mode; otherwise the
+  // exercise stays focused on 1/5 (+ 10 if enabled).
+  const denomsDesc = over20
+    ? (allowTen ? [50, 20, 10, 5] : [50, 20, 5])
+    : (allowTen ? [10, 5] : [5]);
 
   // Cap the number of coins to keep the counting exercise tractable.
-  for (let attempt = 0; attempt < 30; attempt++) {
+  for (let attempt = 0; attempt < 40; attempt++) {
     const target = targetMin + Math.floor(Math.random() * (targetMax - targetMin + 1));
     let remaining = target;
     const coins = [];
 
-    if (allowTen) {
-      const max = Math.floor(remaining / 10);
+    for (const d of denomsDesc) {
+      const max = Math.floor(remaining / d);
       const n = Math.floor(Math.random() * (max + 1));
-      for (let i = 0; i < n; i++) coins.push(10);
-      remaining -= n * 10;
-    }
-    {
-      const max = Math.floor(remaining / 5);
-      const n = Math.floor(Math.random() * (max + 1));
-      for (let i = 0; i < n; i++) coins.push(5);
-      remaining -= n * 5;
+      for (let i = 0; i < n; i++) coins.push(d);
+      remaining -= n * d;
     }
     for (let i = 0; i < remaining; i++) coins.push(1);
 
     if (coins.length >= 2 && coins.length <= 5) {
-      // shuffle
       for (let i = coins.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [coins[i], coins[j]] = [coins[j], coins[i]];
@@ -33,7 +32,7 @@ function rollCoins({ allowTen, over20 }) {
       return coins;
     }
   }
-  return [1, 5]; // extreme fallback
+  return [1, 5];
 }
 
 export function renderMoneyCount(root) {
