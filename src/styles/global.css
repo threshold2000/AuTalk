@@ -368,8 +368,14 @@ button {
   aspect-ratio: 1 / 1;
   object-fit: contain;
   user-select: none;
+  -webkit-user-drag: none;
+  touch-action: none;
+  cursor: grab;
   filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25));
   transform-origin: center center;
+}
+.coin:active {
+  cursor: grabbing;
 }
 
 /* module 3: count of foods tiled in a flex-wrap grid */

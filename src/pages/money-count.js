@@ -7,7 +7,7 @@ function rollCoins({ allowTen, over20 }) {
   // Larger denominations only kick in for the "over 20" mode; otherwise the
   // exercise stays focused on 1/5 (+ 10 if enabled).
   const denomsDesc = over20
-    ? (allowTen ? [50, 20, 10, 5] : [50, 20, 5])
+    ? (allowTen ? [50, 10, 5] : [50, 5])
     : (allowTen ? [10, 5] : [5]);
 
   // Cap the number of coins to keep the counting exercise tractable.

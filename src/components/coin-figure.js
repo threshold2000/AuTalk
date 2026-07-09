@@ -25,6 +25,10 @@ const COIN_SIZE = {
   50: 22.4,
 };
 
+// Coins start inside the left 66 % of the scene so the child has clear
+// empty space on the right to push them into while counting.
+const START_RIGHT_PCT = 66;
+
 // Pick a spot that does not overlap any already-placed coin. Compare
 // centre distance against the sum of the two radii (plus a small buffer)
 // rather than corner distance, so coins really don't touch.
@@ -32,7 +36,7 @@ function placeAway(denom, existing) {
   const size = COIN_SIZE[denom];
   const half = size / 2;
   const buffer = 1; // 1% extra gap so coins are visibly separate
-  const maxLeft = Math.max(0, 100 - size - 2);
+  const maxLeft = Math.max(size + 2, START_RIGHT_PCT - size - 2);
   const maxTop  = Math.max(0, 100 - size - 2);
 
   let best = null;
@@ -100,22 +104,60 @@ function applyCoins(el, coins) {
   }
 
   const placed = [];
+  let zTop = 1;
   for (const denom of coins) {
     const img = document.createElement('img');
     img.className = `coin coin--${denom}`;
     img.src = COIN_SRC[denom] || COIN_SRC[1];
     img.alt = '';
+    img.draggable = false;
     const spot = placeAway(denom, placed);
     placed.push({ cx: spot.cx, cy: spot.cy, radius: spot.radius });
     img.style.left = `${spot.left}%`;
     img.style.top = `${spot.top}%`;
     img.style.width = `${COIN_SIZE[denom]}%`;
     img.style.transform = `rotate(${spot.rot}deg)`;
+    attachDrag(img, grid, COIN_SIZE[denom], () => ++zTop);
     grid.appendChild(img);
   }
   grid.style.display = 'block';
   fb.style.display = 'none';
   grid.style.opacity = '1';
+}
+
+// Pointer-based drag so the child can push the coin across the scene while
+// counting. Uses percentage coords so the movement follows the scene's
+// responsive sizing.
+function attachDrag(img, grid, sizePct, bringToFront) {
+  img.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    const rect = grid.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    img.setPointerCapture(e.pointerId);
+    img.style.zIndex = String(bringToFront());
+    const startClientX = e.clientX;
+    const startClientY = e.clientY;
+    const startLeft = parseFloat(img.style.left) || 0;
+    const startTop  = parseFloat(img.style.top)  || 0;
+    const maxPos = 100 - sizePct;
+
+    const onMove = (ev) => {
+      const dxPct = ((ev.clientX - startClientX) / rect.width)  * 100;
+      const dyPct = ((ev.clientY - startClientY) / rect.height) * 100;
+      const nl = Math.max(0, Math.min(maxPos, startLeft + dxPct));
+      const nt = Math.max(0, Math.min(maxPos, startTop  + dyPct));
+      img.style.left = `${nl}%`;
+      img.style.top  = `${nt}%`;
+    };
+    const onUp = () => {
+      img.removeEventListener('pointermove', onMove);
+      img.removeEventListener('pointerup', onUp);
+      img.removeEventListener('pointercancel', onUp);
+    };
+    img.addEventListener('pointermove', onMove);
+    img.addEventListener('pointerup', onUp);
+    img.addEventListener('pointercancel', onUp);
+  });
 }
 
 export function totalOf(coins) {
